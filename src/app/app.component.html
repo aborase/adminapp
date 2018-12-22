@@ -1,0 +1,196 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div>
+  <h3>Events list:</h3>
+  <p-table [value]="events">
+    <ng-template pTemplate="header">
+      <tr class="dsHeader">
+        <th>Event Name</th>
+        <th>Session Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>        
+        <th>Is Active</th>
+        <th>Start Session</th>
+        <th>End Session</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-event>
+      <tr class="dsBody">
+        <td>{{event.name}}</td>
+        <td>{{event.description}}</td>
+        <td>{{event.start_date}}</td>
+        <td>{{event.end_date}}</td>       
+        <td>{{event.active}}</td>
+        <td><button class="button_appr diableBtn" type="button" [disabled]="event.active == 'Y'" (click)='onStartEvent(event)'>Start</button></td>
+        <td><button class="button_rej diableBtn" (click)='onEndEvent(event)' [disabled]="event.active != 'Y'" type="button">End</button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div style="margin-top:10px">
+  <h3>Sessions in event:</h3>
+  <p-table [value]="eventSessions">
+    <ng-template pTemplate="header">
+      <tr class="dsHeader">
+        <th>Session Id</th>
+        <th>Event Name</th>
+        <th>Session Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Speaker Name</th>
+        <th>Is Active</th>
+        <th>Start Session</th>
+        <th>End Session</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-quest>
+      <tr class="dsBody">
+        <td>{{quest.event_session_id}}</td>
+        <td>{{quest.mst_event.name}}</td>
+        <td>{{quest.name}}</td>
+        <td>{{quest.start_date}}</td>
+        <td>{{quest.end_date}}</td>
+        <td>{{quest.mst_orator.name}}</td>
+        <td>{{quest.active}}</td>
+        <td><button class="button_appr diableBtn" type="button" [disabled]="quest.active == 'Y'" (click)='onStartSession(quest)'>Start</button></td>
+        <td><button class="button_rej diableBtn" (click)='onEndSession(quest)' [disabled]="quest.active != 'Y'" type="button">End</button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div style="margin-top:10px">
+  <h3>Approve questions:</h3>
+  <p-table [value]="questions">
+    <ng-template pTemplate="header">
+      <tr class="dsHeader">
+        <th>ID</th>
+        <th>Session Name</th>
+        <th>User</th>
+        <th>Question</th>
+        <th>Approve</th>
+        <th>Reject</th>
+        <th>Redo</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-quest>
+      <tr class="dsBody">
+        <td>{{quest.question_id}}</td>
+        <td>{{quest.mst_event_session.name}}</td>
+        <td>{{quest.user.name}}</td>
+        <td>{{quest.question}}</td>
+        <td><button class="button_appr" type="button" [disabled]="quest.question_status_id != 2" (click)='onApprove(quest)'>Approve</button></td>
+        <td><button class="button_rej" (click)='onReject(quest)' type="button">Reject</button></td>
+        <td><button class="button_redo" (click)='onRedo(quest)' type="button">Redo</button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<!--
+<div style="margin-top:10px">
+  <table>
+    <tr>
+      <td><h3>Generate Feedback Report For Session:</h3></td>   
+      <td>
+        <button class="button_rpt diableBtn" type="button" [disabled]="activeSessionId == 0" (click)='onReport()'>Report</button>
+      </td>
+    </tr>
+  </table>
+  <div style="margin-top:10px"> 
+  <p-table [value]="feedbackReport">
+    <ng-template pTemplate="header">
+      <tr class="dsHeader">        
+        <th>Session Name</th>
+        <th>Question</th>
+        <th>Question By</th>
+        <th>Feedback Count</th>        
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-report>
+      <tr class="dsBody">
+        <td>{{report.session_name}}</td>
+        <td>{{report.question}}</td>
+        <td>{{report.question_by}}</td>
+        <td>{{report.feedback_count}}</td>        
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+</div>
+-->
+<div style="margin-top:10px"> 
+  
+  <h3>Generate Feedback Report For Session Id:</h3>
+   <form #feedbackReport = "ngForm" (ngSubmit) = "onGenerateReport(feedbackReport.value)" >
+  <table>
+    <tr>   
+      <td>
+       <h4> Session Id: </h4>
+      </td>   
+      <td>
+        
+       <input type="text" name="sessionId" placeholder = "Session Id" [(ngModel)]="rptSessionId" #pickedName="ngModel"><br>
+      </td>
+      <td>
+        <input class="button_otp" type = "submit" value = "Send">
+      </td>
+    </tr>
+  </table>
+  
+  </form>
+  
+</div>
+<div style="margin-top:10px" *ngIf="showReport"> 
+  <p-table [value]="feedbackReports">
+    <ng-template pTemplate="header">
+      <tr class="dsHeader">        
+        <th>Session Name</th>
+        <th>Question</th>
+        <th>Question By</th>
+        <th>Feedback Count</th>        
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-report>
+      <tr class="dsBody">
+        <td>{{report.session_name}}</td>
+        <td>{{report.question}}</td>
+        <td>{{report.question_by}}</td>
+        <td>{{report.feedback_count}}</td>        
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!--
+<div style="margin-top:10px">
+  <table>
+    <tr>
+      <td><h3>Send OTP:</h3></td>   
+      <td>
+        <button class="button_otp" type="button" (click)='onApprove()'>OTP</button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<div style="margin-top:10px"> 
+  
+  <h3>Send SMS:</h3>
+   <form #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin.value)" >
+  <table>
+    <tr>      
+      <td>
+        <textarea rows="4" cols="50"  name = "smsText" placeholder = "SMS message" [(ngModel)]="smsText" #pickedName="ngModel">
+      </textarea> 
+      </td>
+      <td>
+        <input class="button_otp" type = "submit" value = "Send">
+      </td>
+    </tr>
+  </table>
+  </form>
+</div>
+-->
+
+

@@ -1,0 +1,85 @@
+.top-div{
+    border-style: groove;
+    align-items: center;
+    display: grid;
+    position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+.button {
+   margin: 0 auto;
+    display: block;
+   width:100px;
+   height: 30px;
+   color: white;
+    background-color: #386dd8;
+ }
+
+ .canvas_container {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.dsHeader th{
+    background-color: #c1c0c0;
+    border: 1px solid #323232;
+    color: #48494a;
+}
+
+.dsBody td {
+    border: 1px solid #bfbcbc !important;
+    background-color: #f8f9fa !important;
+    color: #211f1f !important;
+}
+
+.button_appr{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  width: 80px;
+  text-align: center;
+  align-self: center;
+}
+.diableBtn:disabled{
+    background-color: grey;
+}
+.button_rej{
+  background-color: red;
+  border: none;
+  color: white;
+  width: 80px;
+  text-align: center;
+}
+.button_redo{
+  background-color: #6666ff;
+  border: none;
+  color: white;
+  width: 80px;
+  text-align: center;
+}
+.button_rpt{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  width: 80px;
+  height: 25px;
+  text-align: center;
+  align-self: center;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    } 40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
