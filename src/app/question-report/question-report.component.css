@@ -39,7 +39,9 @@
   border: none;
   color: white;
   width: 80px;
+  height: 40px;
   text-align: center;
+  font-size: 13px;
   align-self: center;
 }
 .diableBtn:disabled{
@@ -75,6 +77,10 @@
   width: 120px;
   text-align: center;
   align-self: center;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 
 @-webkit-keyframes sk-bouncedelay {

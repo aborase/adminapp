@@ -1,23 +1,24 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule }   from '@angular/forms';
-
 import { AppComponent } from './app.component';
-import { IFrameSanitizerModule } from "./iframe-sanitizer.module";
-import { KWService } from "./service/KWService";
-import {TableModule} from 'primeng/table';
-import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
-
+import { AppRoutingModule } from "./app-routing.module";
+import { BrowserModule } from '@angular/platform-browser';
+import { ModalModule } from 'ngx-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { CustomOption } from './custom-option';
+import {ToastOptions} from 'ng2-toastr';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule, IFrameSanitizerModule, HttpModule, TableModule, FormsModule, Ng4LoadingSpinnerModule.forRoot(),
+    HttpModule,  BrowserModule,ModalModule.forRoot(),
+    FormsModule, AppRoutingModule,BrowserAnimationsModule, ToastModule.forRoot()
   ],
-  providers: [KWService],  
+  providers: [{provide: ToastOptions, useClass: CustomOption}],  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

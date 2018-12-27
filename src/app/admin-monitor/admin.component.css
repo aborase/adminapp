@@ -38,7 +38,7 @@
   background-color: #4CAF50;
   border: none;
   color: white;
-  width: 80px;
+  width: 40px;
   text-align: center;
   align-self: center;
 }
@@ -75,6 +75,11 @@
   width: 120px;
   text-align: center;
   align-self: center;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 
 @-webkit-keyframes sk-bouncedelay {

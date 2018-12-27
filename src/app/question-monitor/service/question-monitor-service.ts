@@ -7,11 +7,47 @@ import 'rxjs/Rx';
 
 
 @Injectable()
-export class KWService {
+export class QuestionMonitorService {
 
     SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
 
      constructor(private http: Http) { }
+
+     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1
+
+     public getSessionForId(sessionId): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'sessions/'+ sessionId;
+
+        return this.http.get(url, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
+
+         //http://192.168.43.150:31607/kw/api/v1/webadmin/events/1
+
+     public getEventById(eventId): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'events/' + eventId;
+
+        return this.http.get(url, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
 
      //http://192.168.43.150:31607/kw/api/v1/admin/events
 
@@ -87,6 +123,24 @@ export class KWService {
         let url = 'sessions/' + sessionId + '/questions';
 
         return this.http.get(this.SERVER_URL + url, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
+
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions
+     
+    public getAllSessionsInDay(): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'sessions';
+
+        return this.http.get(url, options).map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
             );
     }
@@ -175,6 +229,31 @@ export class KWService {
         let url = this.SERVER_URL + 'sessions/' + sessionId + '/report';
 
         return this.http.get(url, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
+
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1/approvalmode
+    public updateApprovalModeForSession(sessionId, status): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        let body = JSON.stringify(
+            {                
+                is_auto_approval: status
+            }
+        );
+
+        console.log('#### setQuestionStatus body ####',body)
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'sessions/' + sessionId + '/approvalmode';
+
+        return this.http.put(url, body, options).map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
             );
     }

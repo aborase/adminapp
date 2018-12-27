@@ -1,0 +1,53 @@
+<div style="text-align: center; color: blue"><h2>Question Monitor - Manual Approval Screen</h2></div>
+
+<table style="width:100%; margin-top:20px">
+  <tr>
+    <td><b>Welcome:</b> Admin</td>
+    <td><b>Date:</b> {{date}}</td>     
+  </tr>
+   <tr>
+    <td><b>Session Name:</b> {{session.name}}</td>
+    <td><b>Event Name:</b> {{event.mst_venue.name}}</td>     
+  </tr>
+  <tr>
+    <td><b>Speaker:</b> {{session.mst_orator.name}}</td>
+    <td><b>Stream:</b> {{session.mst_orator.stream}}</td>     
+  </tr>
+   <tr>
+    <td><b>Time:</b> {{startTime}} to {{endTime}} </td>
+    <td><b>Question Approval:</b> {{approvalMode}}</td>     
+  </tr>
+</table>
+
+<div style="margin-top:20px" *ngIf="!isSessionStarted">
+    <h4 style="color: red">Event session is inactive. Please start the session.</h4>
+</div>
+<div style="margin-top:20px" *ngIf="isAutoApprovalmode">
+    <h4 style="color: red">Question approval mode selected is Auto. All questions will be auto approved for this session</h4>
+</div>
+<div style="margin-top:50px" *ngIf="isSessionStarted && !isAutoApprovalmode">
+    <div style="margin-top:10px">
+        <h3>Approve questions:</h3>
+        <p-table [value]="questions">
+            <ng-template pTemplate="header">
+                <tr class="dsHeader">
+                    <th>ID</th>                   
+                    <th>Raised By</th>
+                    <th>Question</th>
+                    <th>Approve</th>
+                    <th>Reject</th>
+                    <th>Redo</th>                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-quest>
+                <tr class="dsBody">
+                    <td>{{quest.question_id}}</td>                    
+                    <td>{{quest.user.name}}</td>
+                    <td>{{quest.question}}</td>
+                    <td><button class="button_appr" type="button" [disabled]="quest.question_status_id != 2" (click)='onApprove(quest)'>Approve</button></td>
+                    <td><button class="button_rej" (click)='onReject(quest)' type="button">Reject</button></td>
+                    <td><button class="button_redo" (click)='onRedo(quest)' type="button">Redo</button></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
