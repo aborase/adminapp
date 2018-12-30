@@ -2,23 +2,25 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
+import { environment } from "../../../environments/environment";
 import 'rxjs/Rx';
 
 
 @Injectable()
 export class KWService {
 
-    SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
+    // SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
 
-     constructor(private http: Http) { }
+    SERVER_URL = environment.KW_REST_API;
 
-     //http://192.168.43.150:31607/kw/api/v1/admin/events
+    constructor(private http: Http) { }
 
-     public getAllEvents(): Observable<any> {
+    //http://192.168.43.150:31607/kw/api/v1/admin/events
+
+    public getAllEvents(): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -32,20 +34,20 @@ export class KWService {
     }
 
     //http://192.168.43.150:31607/kw/api/v1/admin/events/1
-     public setEventStatus(event: any, status: string): Observable<any> {
+    public setEventStatus(event: any, status: string): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
-               status: status
+            {
+                status: status
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -58,11 +60,11 @@ export class KWService {
 
     //http://192.168.43.150:31607/api/rest/events/sessions/1/questions/2   >> not used
 
-     public getActiveSessionInEvent(): Observable<any> {
+    public getActiveSessionInEvent(): Observable<any> {
 
-         var headers: Headers;
+        var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -75,10 +77,10 @@ export class KWService {
 
     //http://192.168.43.150:31607/api/rest/admin/sessions/2/questions
     public getpostedQuestions(sessionId: any): Observable<any> {
-        console.log('getpostedQuestions service sessionId >>>'+sessionId);
+        console.log('getpostedQuestions service sessionId >>>' + sessionId);
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -92,11 +94,11 @@ export class KWService {
     }
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions
-     
+
     public getAllSessionsInDay(): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -114,7 +116,7 @@ export class KWService {
     public getAllSessionsInEvent(eventId: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -128,10 +130,10 @@ export class KWService {
     }
 
     //http://192.168.43.150:31607/api/rest/admin/events/1/sessions/status
-     public setSessionStatus(eventSession: any, status): Observable<any> {
+    public setSessionStatus(eventSession: any, status): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -142,7 +144,7 @@ export class KWService {
             }
         );
 
-        console.log('#### setSessionStatus body ####',body)
+        console.log('#### setSessionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -154,22 +156,22 @@ export class KWService {
     }
 
     //http://192.168.43.150:31607/api/rest/admin/events/sessions/1/questions/2
-     public setQuestionStatus(question: any, status): Observable<any> {
+    public setQuestionStatus(question: any, status): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
+            {
                 question_status_id: status,
-                user_id : question.user_id,
+                user_id: question.user_id,
                 approver_id: 'Admin'
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -184,7 +186,7 @@ export class KWService {
     public getFeedbackReport(sessionId: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -201,17 +203,17 @@ export class KWService {
     public updateApprovalModeForSession(sessionId, status): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
+            {
                 is_auto_approval: status
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -230,10 +232,10 @@ export class KWService {
     }
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/speakers/all
-    public getSpeakersList(){
-         var headers: Headers;
+    public getSpeakersList() {
+        var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -243,24 +245,24 @@ export class KWService {
 
         return this.http.get(url, options).map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
-        );
+            );
     }
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1/speakers
     public updateSpeaker(sessionId, speakerId): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
+            {
                 orator_id: speakerId
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -272,15 +274,15 @@ export class KWService {
     }
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/speakers/new
-     public addNewSpeaker(oratorId, name, mobile, email, stream): Observable<any> {
+    public addNewSpeaker(oratorId, name, mobile, email, stream): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
+            {
                 orator_id: oratorId,
                 name: name,
                 mobile: mobile,
@@ -289,7 +291,7 @@ export class KWService {
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -301,10 +303,10 @@ export class KWService {
     }
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/speakers/all
-    public getMaxOratorId(){
-         var headers: Headers;
+    public getMaxOratorId() {
+        var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -314,7 +316,7 @@ export class KWService {
 
         return this.http.get(url, options).map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
-        );
+            );
     }
 
 }

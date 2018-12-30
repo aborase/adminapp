@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  KW_REST_API: "http://192.168.43.150:31607/kw/api/v1/webadmin/",
+  ST_SHARED_API: "http://192.168.43.150:5000/stss/api/v1/"
 };

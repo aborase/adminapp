@@ -2,43 +2,46 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
+import { environment } from "../../../environments/environment";
 import 'rxjs/Rx';
 
 
 @Injectable()
 export class QuestionReportService {
 
-    SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
-    SHARED_SERVICE_URL = "http://192.168.43.150:5000/stss/api/v1/"
+    //SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
+    // SHARED_SERVICE_URL = "http://192.168.43.150:5000/stss/api/v1/"
+    SERVER_URL = environment.KW_REST_API;
+    SHARED_SERVICE_URL = environment.ST_SHARED_API;
+
     CONGRATS_SMS = 'Congratulations!. Your question got highest likes.';
 
-     constructor(private http: Http) { }
+    constructor(private http: Http) { }
 
-     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1
 
-     public getSessionForId(sessionId): Observable<any> {
+    public getSessionForId(sessionId): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         options = new RequestOptions({ headers: headers });
 
-        let url = this.SERVER_URL + 'sessions/'+ sessionId;
+        let url = this.SERVER_URL + 'sessions/' + sessionId;
 
         return this.http.get(url, options).map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
             );
     }
 
-         //http://192.168.43.150:31607/kw/api/v1/webadmin/events/1
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/events/1
 
-     public getEventById(eventId): Observable<any> {
+    public getEventById(eventId): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -51,10 +54,10 @@ export class QuestionReportService {
             );
     }
 
-     public sendSMS(mobileNo: any): Observable<any> {
+    public sendSMS(mobileNo: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
@@ -63,15 +66,15 @@ export class QuestionReportService {
         });
 
         let body = JSON.stringify(
-            {                
-               mobileno: mobileNo,
-               userid: 1,
-               isotp: false,
-               message: this.CONGRATS_SMS
+            {
+                mobileno: mobileNo,
+                userid: 1,
+                isotp: false,
+                message: this.CONGRATS_SMS
             }
         );
 
-        console.log('#### sendSMS body ####',body)
+        console.log('#### sendSMS body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -85,7 +88,7 @@ export class QuestionReportService {
     public sendEmail(report: any, date: any, venue: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
@@ -93,18 +96,18 @@ export class QuestionReportService {
         });
 
         let body = JSON.stringify(
-            {                
-               name: report.question_by,
-               email: report.email_id,
-               sessionName: report.session_name,
-               date: date,
-               venue: venue,
-               question: report.question,
-               likes: report.feedback_count
+            {
+                name: report.question_by,
+                email: report.email_id,
+                sessionName: report.session_name,
+                date: date,
+                venue: venue,
+                question: report.question,
+                likes: report.feedback_count
             }
         );
 
-        console.log('#### sendEmail body ####',body)
+        console.log('#### sendEmail body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -115,12 +118,12 @@ export class QuestionReportService {
             );
     }
 
-     //http://192.168.43.150:31607/kw/api/v1/admin/events
+    //http://192.168.43.150:31607/kw/api/v1/admin/events
 
-     public getAllEvents(): Observable<any> {
+    public getAllEvents(): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -134,20 +137,20 @@ export class QuestionReportService {
     }
 
     //http://192.168.43.150:31607/kw/api/v1/admin/events/1
-     public setEventStatus(event: any, status: string): Observable<any> {
+    public setEventStatus(event: any, status: string): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
-               status: status
+            {
+                status: status
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -160,11 +163,11 @@ export class QuestionReportService {
 
     //http://192.168.43.150:31607/api/rest/events/sessions/1/questions/2   >> not used
 
-     public getActiveSessionInEvent(): Observable<any> {
+    public getActiveSessionInEvent(): Observable<any> {
 
-         var headers: Headers;
+        var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -177,10 +180,10 @@ export class QuestionReportService {
 
     //http://192.168.43.150:31607/api/rest/admin/sessions/2/questions
     public getpostedQuestions(sessionId: any): Observable<any> {
-        console.log('getpostedQuestions service sessionId >>>'+sessionId);
+        console.log('getpostedQuestions service sessionId >>>' + sessionId);
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -194,11 +197,11 @@ export class QuestionReportService {
     }
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions
-     
+
     public getAllSessionsInDay(): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -216,7 +219,7 @@ export class QuestionReportService {
     public getAllSessionsInEvent(eventId: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -230,10 +233,10 @@ export class QuestionReportService {
     }
 
     //http://192.168.43.150:31607/api/rest/admin/events/1/sessions/status
-     public setSessionStatus(eventSession: any, status): Observable<any> {
+    public setSessionStatus(eventSession: any, status): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -244,7 +247,7 @@ export class QuestionReportService {
             }
         );
 
-        console.log('#### setSessionStatus body ####',body)
+        console.log('#### setSessionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -256,22 +259,22 @@ export class QuestionReportService {
     }
 
     //http://192.168.43.150:31607/api/rest/admin/events/sessions/1/questions/2
-     public setQuestionStatus(question: any, status): Observable<any> {
+    public setQuestionStatus(question: any, status): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
+            {
                 question_status_id: status,
-                user_id : question.user_id,
+                user_id: question.user_id,
                 approver_id: 'Admin'
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -286,7 +289,7 @@ export class QuestionReportService {
     public getFeedbackReport(sessionId: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -303,17 +306,17 @@ export class QuestionReportService {
     public updateApprovalModeForSession(sessionId, status): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
         let body = JSON.stringify(
-            {                
+            {
                 is_auto_approval: status
             }
         );
 
-        console.log('#### setQuestionStatus body ####',body)
+        console.log('#### setQuestionStatus body ####', body)
 
         options = new RequestOptions({ headers: headers });
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { environment } from "../../../environments/environment";
 
 import 'rxjs/Rx';
 
@@ -9,7 +10,8 @@ import 'rxjs/Rx';
 @Injectable()
 export class QuestionMonitorService {
 
-    SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
+   // SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
+    SERVER_URL = environment.KW_REST_API;
 
      constructor(private http: Http) { }
 

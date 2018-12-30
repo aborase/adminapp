@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from "../../../environments/environment";
 
 import 'rxjs/Rx';
 
@@ -9,16 +10,17 @@ import 'rxjs/Rx';
 @Injectable()
 export class LogInService {
 
-    SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
+    // SERVER_URL = 'http://192.168.43.150:31607/kw/api/v1/webadmin/';
+    SERVER_URL = environment.KW_REST_API;
 
-     constructor(private http: Http) { }
+    constructor(private http: Http) { }
 
-     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions
-     
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions
+
     public getAllSessionsInDay(): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
 
@@ -32,20 +34,20 @@ export class LogInService {
     }
 
 
-     //http://192.168.43.150:31607/kw/api/v1/webadmin/user/details
-      public getUserDetails(input: any, type: string): Observable<any> {
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/user/details
+    public getUserDetails(input: any, type: string): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
-        headers = new Headers({            
+        headers = new Headers({
             'Content-Type': 'application/json'
         });
-        let body: any  = JSON.stringify(
-            {                
+        let body: any = JSON.stringify(
+            {
                 input: input,
                 type: type
             }
-        ); 
-        console.log('#### getUserDetails body ####',body)
+        );
+        console.log('#### getUserDetails body ####', body)
 
         options = new RequestOptions({ headers: headers });
 
@@ -54,12 +56,12 @@ export class LogInService {
         return this.http.post(url, body, options).map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
             );
-    }    
-    
+    }
+
 
     private userDetails = new BehaviorSubject('');
     userInfo = this.userDetails.asObservable();
-     
+
     publishUserDetailskReport(userName: any) {
         console.log('#### userDetails changeMessage ####', userName)
         this.userDetails.next(userName)
@@ -67,7 +69,7 @@ export class LogInService {
 
     private userQDetails = new BehaviorSubject('');
     userQInfo = this.userQDetails.asObservable();
-     
+
     publishUserDetailsToQuestionMonitor(userName: any) {
         console.log('#### userDetails changeMessage ####', userName)
         this.userQDetails.next(userName)
