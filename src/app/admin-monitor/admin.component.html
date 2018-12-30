@@ -28,25 +28,66 @@
   </p-table>
 </div>
 -->
-<div style="text-align: center; color: blue"><h2>Sessions for today</h2></div>
+<div style="text-align: center; color: blue">
+  <h2>Sessions for today</h2>
+</div>
 
-<table style="width:100%; margin-top:20px">
+<table class="calendar_table" style="margin-top:20px;">
   <tr>
-    <td><b>Welcome:</b> Admin</td>
-    <td><b>Date:</b> {{date}}</td>     
-  </tr>   
+    <td><b>Welcome:</b> {{userDetail}}</td>
+    <td><b>Date:</b> {{date}}</td>
+  </tr>
 </table>
 
-<div style="margin-top:50px"> 
+<div style="margin-top:20px;" *ngIf="showSpeaker">
+  <label> Select new speaker : </label>
+  <select (change)="onSelectSpeaker($event.target.value)">
+      <option value="-1">Select speaker</option>
+      <option *ngFor="let speaker of speakers" [value]="speaker.orator_id">{{speaker.name}}</option>
+  </select>
+  <button class="button_appr diableBtn" style="margin-left:10px;" [disabled]="enableUpdateSpeakerBtn" (click)='updateSpeaker()'
+    type="button">Update</button>
+</div>
+
+<div class="border border-dark" style="margin-top:20px; width:410px" *ngIf="showOtherSpeakers">
+  <b><label> Add new speaker : </label></b>
+  <form #form="ngForm" (ngSubmit)="addNewSpeaker(form.value)">
+    <div>
+      <b><label style="width:75px">Name : </label> </b>
+      <input style="margin-left:10px;width:250px" type="text" name="speakerName" placeholder="Name" [(ngModel)]="speakerName" #pickedName="ngModel">
+    </div>
+    <div>
+      <b><label style="width:75px">Mobile : </label> </b>
+      <input style="margin-left:10px;width:250px" type="text" name="speakerMobile" placeholder="Mobile No" [(ngModel)]="speakerMobile"
+        #pickedName="ngModel">
+    </div>
+    <div>
+      <b><label style="width:75px">Email : </label> </b>
+      <input style="margin-left:10px;width:250px" type="text" name="speakerEmail" placeholder="Email" [(ngModel)]="speakerEmail"
+        #pickedName="ngModel">
+    </div>
+    <div>
+      <b><label style="width:75px">Stream : </label> </b>
+      <input style="margin-left:10px;width:250px" type="text" name="speakerStream" placeholder="Stream" [(ngModel)]="speakerStream"
+        #pickedName="ngModel">
+    </div>
+    <div>
+      <button style="margin-top:30px;margin-left:100px" class="button_appr diableBtn" type="submit">Submit</button>
+    </div>   
+  </form>
+  <div style="margin-top:5px"></div>
+</div>
+
+<div style="margin-top:50px">
   <p-table [value]="eventSessions">
     <ng-template pTemplate="header">
-      <tr class="dsHeader">        
+      <tr class="dsHeader">
         <th>Event Name</th>
         <th>Session Name</th>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Speaker Name</th>  
-        <!--<th>Change Speaker</th> -->     
+        <th>Speaker Name</th>
+        <th>Change Speaker</th>
         <th>Is Active</th>
         <th>Question Pin</th>
         <th>Question Monitor</th>
@@ -58,22 +99,25 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-quest>
-      <tr class="dsBody">       
+      <tr class="dsBody">
         <td>{{quest.mst_event.name}}</td>
         <td>{{quest.name}}</td>
         <td>{{quest.start_date}}</td>
         <td>{{quest.end_date}}</td>
         <td>{{quest.mst_orator.name}}</td>
-        <!--<td><button class="button_appr diableBtn"  style="margin-left:10px;" (click)='changeSpeakerForSession(quest)'  [disabled]="quest.active == 'Y'" type="button">Change Speaker</button></td>        -->
+        <td><button class="button_appr diableBtn" style="margin-left:5px;" (click)='changeSpeakerForSession(quest)' [disabled]="quest.active == 'Y'"
+            type="button">Change Speaker</button></td>
         <td>{{quest.active}}</td>
         <td>{{quest.question_pin}}</td>
         <td> <a routerLink="/qmonitor/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Q monitor</a></td>
         <td> <a routerLink="/qreport/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Report</a></td>
-        <td>{{quest.is_auto_approval}}</td>        
+        <td>{{quest.is_auto_approval}}</td>
         <td><button class="button_appr diableBtn" type="button" [disabled]="quest.active == 'Y'" (click)='onStartSession(quest)'>Start</button></td>
         <td><button class="button_rej diableBtn" (click)='onEndSession(quest)' [disabled]="quest.active != 'Y'" type="button">End</button></td>
-        <td *ngIf="quest.is_auto_approval == 'Auto'"><button class="button_appr diableBtn"  style="margin-left:10px;" (click)='updateApprovalModeForSession(quest)'  [disabled]="quest.active == 'Y'" type="button">Manual</button></td>
-        <td *ngIf="quest.is_auto_approval == 'Manual'"><button class="button_appr diableBtn" style="margin-left:10px;" (click)='updateApprovalModeForSession(quest)' [disabled]="quest.active == 'Y'" type="button">Auto</button></td>
+        <td *ngIf="quest.is_auto_approval == 'Auto'"><button class="button_appr diableBtn" style="margin-left:10px;" (click)='updateApprovalModeForSession(quest)' [disabled]="quest.active == 'Y'"
+            type="button">Manual</button></td>
+        <td *ngIf="quest.is_auto_approval == 'Manual'"><button class="button_appr diableBtn" style="margin-left:10px;" (click)='updateApprovalModeForSession(quest)' [disabled]="quest.active == 'Y'"
+            type="button">Auto</button></td>
       </tr>
     </ng-template>
   </p-table>
@@ -230,5 +274,3 @@
   </form>
 </div>
 -->
-
-

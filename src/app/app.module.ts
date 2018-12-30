@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { CustomOption } from './custom-option';
 import {ToastOptions} from 'ng2-toastr';
+import { LogInService } from "./log-in/service/log-in";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import {ToastOptions} from 'ng2-toastr';
     HttpModule,  BrowserModule,ModalModule.forRoot(),
     FormsModule, AppRoutingModule,BrowserAnimationsModule, ToastModule.forRoot()
   ],
-  providers: [{provide: ToastOptions, useClass: CustomOption}],  
+  providers: [{provide: ToastOptions, useClass: CustomOption}, LogInService],  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

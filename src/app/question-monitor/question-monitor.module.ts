@@ -12,7 +12,6 @@ import { QMonitorRoutingModule } from "./qmonitor-routing.module";
 import { QuestionMonitorService } from "./service/question-monitor-service";
 
 
-
 @NgModule({
   declarations: [
     QuestionMonitorComponent

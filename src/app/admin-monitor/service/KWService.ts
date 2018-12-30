@@ -229,4 +229,92 @@ export class KWService {
         this.feedback.next(report)
     }
 
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/speakers/all
+    public getSpeakersList(){
+         var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'speakers/all';
+
+        return this.http.get(url, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+        );
+    }
+
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1/speakers
+    public updateSpeaker(sessionId, speakerId): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        let body = JSON.stringify(
+            {                
+                orator_id: speakerId
+            }
+        );
+
+        console.log('#### setQuestionStatus body ####',body)
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'sessions/' + sessionId + '/speakers';
+
+        return this.http.put(url, body, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
+
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/speakers/new
+     public addNewSpeaker(oratorId, name, mobile, email, stream): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        let body = JSON.stringify(
+            {                
+                orator_id: oratorId,
+                name: name,
+                mobile: mobile,
+                email: email,
+                stream: stream
+            }
+        );
+
+        console.log('#### setQuestionStatus body ####',body)
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'speakers/new';
+
+        return this.http.post(url, body, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
+
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/speakers/all
+    public getMaxOratorId(){
+         var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({            
+            'Content-Type': 'application/json'
+        });
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'speakers/count';
+
+        return this.http.get(url, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+        );
+    }
+
 }

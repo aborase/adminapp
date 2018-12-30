@@ -6,6 +6,7 @@ import { Observable } from "rxjs/Observable";
 import { ActivatedRoute } from '@angular/router';
 import { QuestionReportService } from "./service/question-report-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { LogInService } from "../log-in/service/log-in";
 
 @Component({
   selector: 'question-report',
@@ -26,9 +27,10 @@ export class QuestionReportComponent implements OnInit {
   endTime: any;
   feedbackReport: any[] = [];
   approvalMode: any;
+  userDetail: any;
 
   constructor(private route: ActivatedRoute, private qMonitor: QuestionReportService,
-              public toastr: ToastsManager, vcr: ViewContainerRef) {
+              public toastr: ToastsManager, vcr: ViewContainerRef, private logInService: LogInService) {
     this.eventSessionId = route.snapshot.params['id'];
     console.log('>>>>>>>>>>>>>>>>>>>>>>>' + this.eventSessionId);
     this.toastr.setRootViewContainerRef(vcr);
@@ -36,6 +38,7 @@ export class QuestionReportComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.logInService.userInfo.subscribe(details => this.userDetail = details); 
     this.qMonitor.getSessionForId(this.eventSessionId).map((resData: any) => resData).subscribe(
       result => {
         console.log('>>>>>>>> updateApprovalModeForSession success >>', result);

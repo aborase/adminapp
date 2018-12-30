@@ -74,35 +74,25 @@
   color: white;
   width: 120px;
   text-align: center;
-  align-self: center;
+  
+ 
 }
-.calendar_table {
-    width:100%;
-    border: 1px solid black;
-     border-collapse: collapse
-}
-.calendar_table tr {
-    margin:5;
-    padding:4px;
-    border: 1px solid black;
-}
-.calendar_table td {
-  width: 20%;
-  border: 1px solid black;
+.login{
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   height:300px;
+   width:600px;
+   background-color: #b3d1ff
 }
 /*
-.header_table th, td{
+table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-  
-}
-
-speaker_table, tr th, td {
-   border: 0px;  
-  border-collapse: collapse;
-  
 }
 */
+
 @-webkit-keyframes sk-bouncedelay {
     0%, 80%, 100% { -webkit-transform: scale(0) }
     40% { -webkit-transform: scale(1.0) }
