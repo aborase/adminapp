@@ -10,8 +10,8 @@ const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login',  loadChildren: './log-in/log-in.module#LogInModule'},
   { path: 'admin',  loadChildren: './admin-monitor/admin.module#AdminModule'},
-  { path: 'qmonitor/:id',  loadChildren: './question-monitor/question-monitor.module#QuestionMonitorModule'},
-  { path: 'qreport/:id',  loadChildren: './question-report/question-report.module#QuestionReportModule'}
+  { path: '/kwapp/admin/qmonitor/:id',  loadChildren: './question-monitor/question-monitor.module#QuestionMonitorModule'},
+  { path: '/kwapp/admin/qreport/:id',  loadChildren: './question-report/question-report.module#QuestionReportModule'}
    
 ];
 
