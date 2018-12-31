@@ -44,7 +44,7 @@
             <Table>
                 <tr>
                     <td>Phone: {{report.mobile_no}}</td>
-                    <td><button class="button_appr diableBtn" type="button" [disabled]="report.mobile_no == '' || report.mobile_no == null" (click)='onSendSMS(report.mobile_no)'>Send Congrats SMS</button></td>
+                    <td><button class="button_appr diableBtn" type="button" [disabled]="report.mobile_no == '' || report.mobile_no == null" (click)='onSendSMS(report)'>Send Congrats SMS</button></td>
                 </tr>
                 <tr>
                     <td>Email: {{report.email_id}}</td>

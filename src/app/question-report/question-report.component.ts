@@ -28,6 +28,7 @@ export class QuestionReportComponent implements OnInit {
   feedbackReport: any[] = [];
   approvalMode: any;
   userDetail: any;
+  CONGRATS_SMS = 'Thank you for participating in question session ';
 
   constructor(private route: ActivatedRoute, private qMonitor: QuestionReportService,
               public toastr: ToastsManager, vcr: ViewContainerRef, private logInService: LogInService) {
@@ -113,9 +114,32 @@ export class QuestionReportComponent implements OnInit {
       });
   }
 
-  onSendSMS(mobileNo){
+  onSendSMS(report: any){
     console.log('>>>>>>>>>>>>>>>>>>>>>>>' + this.eventSessionId);
-    this.qMonitor.sendSMS(mobileNo).map((resData: any) => resData).subscribe(
+    
+    let sessionName = ''; 
+    if(report.question.length < 20){
+      sessionName = report.question;
+    }else{
+       sessionName = report.question.substring(0, 20) + '...';;
+    }
+    let question = '' ;
+    if(report.question.length < 20){
+      question = report.question;
+    }else{
+       question = report.question.substring(0, 20) + '...';;
+    }
+    let venueName = '';
+    if(this.event.mst_venue.name.length < 15){
+      venueName = this.event.mst_venue.name;
+    }else{
+      venueName = this.event.mst_venue.name.substring(0, 12) + '...';;
+    }
+    /*let sms = this.CONGRATS_SMS + report.session_name + ' on ' + this.date + ' held at "' + this.event.mst_venue.name + '" . Your question "' + 
+              report.question + '" got '+ report.feedback_count + ' likes.'*/
+              let sms = this.CONGRATS_SMS + '" ' + sessionName  + ' "' + ' on ' + this.date + ' held at "' + venueName + '" . Your question "' + 
+              question + '" got '+ report.feedback_count + ' likes.'
+    this.qMonitor.sendSMS(report.mobile_no, sms).map((resData: any) => resData).subscribe(
       result => {         
        this.toastr.success('SMS sent !!!', 'Success!', { toastLife:3000, showCloseButton: true, positionClass:"toast-bottom-full-width" }); 
       }, error => {

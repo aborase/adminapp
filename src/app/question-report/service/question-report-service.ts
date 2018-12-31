@@ -14,7 +14,7 @@ export class QuestionReportService {
     SERVER_URL = environment.KW_REST_API;
     SHARED_SERVICE_URL = environment.ST_SHARED_API;
 
-    CONGRATS_SMS = 'Congratulations!. Your question got highest likes.';
+    
 
     constructor(private http: Http) { }
 
@@ -54,7 +54,7 @@ export class QuestionReportService {
             );
     }
 
-    public sendSMS(mobileNo: any): Observable<any> {
+    public sendSMS(mobileNo: any, sms: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
         headers = new Headers({
@@ -70,7 +70,7 @@ export class QuestionReportService {
                 mobileno: mobileNo,
                 userid: 1,
                 isotp: false,
-                message: this.CONGRATS_SMS
+                message: sms
             }
         );
 
