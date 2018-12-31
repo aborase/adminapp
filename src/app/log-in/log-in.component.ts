@@ -54,6 +54,8 @@ export class LogInComponent implements OnInit {
     if (this.userInput.match(this.MOBILE_REGEX)) {
       isValidMobile = true;
       type = 'mobile';
+      this.userInput = '91'+ this.userInput;
+      console.log('>>>>>>>> this.userInput >>', this.userInput);
     } else if (this.userInput.match(this.EMAIL_REGEX)) {
       isValidEmail = true;
       type = 'email';
@@ -64,6 +66,9 @@ export class LogInComponent implements OnInit {
       this.kwSerice.getUserDetails(this.userInput, type).map((resData: any) => resData).subscribe(
         result => {
           console.log('>>>>>>>> getUserDetails success >>', result);
+          if(result == null){
+            this.toastr.error("You don't have rights to access the app. Please contact administrator.", 'Error!', { toastLife: 3000, showCloseButton: true, positionClass: "toast-bottom-full-width" });
+          }
           if(result.user_role_id == 2){
             this.kwSerice.publishUserDetailskReport(result.name);
             setTimeout(() => {
@@ -73,7 +78,7 @@ export class LogInComponent implements OnInit {
             this.toastr.error("You don't have rights to access the app. Please contact administrator.", 'Error!', { toastLife: 3000, showCloseButton: true, positionClass: "toast-bottom-full-width" });
           }
         }, error => {
-
+          console.log('>>>>>>>> getUserDetails error >>', error);
         });
     }
 
