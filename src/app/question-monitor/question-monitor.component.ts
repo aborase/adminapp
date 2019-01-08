@@ -110,7 +110,7 @@ export class QuestionMonitorComponent implements OnInit {
 
   onApprove(question) {
     console.log('Approved >>>', question);
-    this.setQuestionStatus(question, 1);
+    this.setQuestionStatus(question, 2);
   }
 
   onReject(question) {
