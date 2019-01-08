@@ -43,7 +43,7 @@
                     <td>{{quest.question_id}}</td>                    
                     <td>{{quest.user.name}}</td>
                     <td>{{quest.question}}</td>
-                    <td><button class="button_appr" type="button" [disabled]="quest.question_status_id != 2" (click)='onApprove(quest)'>Approve</button></td>
+                    <td><button class="button_appr" type="button" [disabled]="quest.question_status_id != 1" (click)='onApprove(quest)'>Approve</button></td>
                     <!--<td><button class="button_rej" (click)='onReject(quest)' type="button">Reject</button></td> -->
                     <td><button class="button_redo" (click)='onRedo(quest)' type="button">Redo</button></td>
                 </tr>
