@@ -88,7 +88,7 @@ export class QuestionMonitorComponent implements OnInit {
         console.log(">>>>>> getpostedQuestions >", result.size);
 
         result.forEach(element => {
-          if (element.question_status_id == 2) {
+          if (element.question_status_id == 1) {
             this.questions.push(element);
           }
           // if (element.question_status_id == 1) {
