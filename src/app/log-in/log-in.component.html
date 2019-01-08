@@ -1,13 +1,14 @@
 <div> 
   <div class="border login"> 
     <h4 style="margin-left:150px">Welcome to Admin Portal</h4>
-    <table >
+    <!--<table >
         <tr>
-          <td> <img src="/assets/images/Logo.png" style="width:120px;height:120px" alt="Knowledge Weavers">
-          <td><h4 style="margin-left:100px">Welcome to Admin Portal</h4></td>
+          <td> <img src="../assets/images/Logo.png" style="width:120px;heigth:120px" alt="Knowledge Weavers">
+          <td><h4 style="margin-left:100px">Welcome to Admin Portal</h4></td></td>
           
-        </tr>
-    </table>    
+        </tr> 
+    </table> -->
+   <div style="margin-top:70px;">      
    <form #form="ngForm" (ngSubmit)="submit(form.value)">
       <table style="margin-top:30px;">
         <tr>
@@ -20,5 +21,6 @@
           <td><button style="margin-top:50px;margin-left:200px" class="button_appr diableBtn" [disabled]="userInput == null || userInput.trim() == ''"  type="submit" >Log In</button></td>
         </tr>
       </table>
-    </form>   
+    </form> 
+   </div>  
   </div>
