@@ -9,6 +9,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectItem } from 'primeng/api';
 import { LogInService } from "../log-in/service/log-in";
+import { DatePipe } from '@angular/common';
 
 declare var moment: any;
 
@@ -43,7 +44,8 @@ export class AdminComponent implements OnInit {
   selectedSessionId: any;
   selectedSpeakerId: any;
   speakerCount: any;
-
+  currentDate: any;
+  
   constructor(private kwSerice: KWService, private spinnerService: Ng4LoadingSpinnerService,
     public toastr: ToastsManager, vcr: ViewContainerRef, private logInService: LogInService) {
     this.date = new Date();
@@ -52,6 +54,11 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+     let date = new Date();
+    var datePipe = new DatePipe("en-US");
+    this.currentDate = datePipe.transform(date, ' yyyy-MM-dd HH:MM:SS');   
+    console.log('>>>>>>>>>>>>>> datepipe details >>>>>><<<<<<<<<<<<<<', datePipe.transform(date, ' yyyy-MM-dd HH:MM:SS'));
+    
    // this.kwSerice.feedbackReport.subscribe(report => this.feedbackReports = report);
     this.logInService.userInfo.subscribe(details => {
       console.log('>>>>>>>>>>>>>> details >>>>>><<<<<<<<<<<<<<', details)
@@ -160,7 +167,7 @@ export class AdminComponent implements OnInit {
   }
 
   getAllSessionsFoDay() {
-    this.kwSerice.getAllSessionsInDay().map((resData: any) => resData).subscribe(
+    this.kwSerice.getAllSessionsInDay(this.currentDate).map((resData: any) => resData).subscribe(
       result => {
         //this.activeSession = result[0];
         this.date = this.getDate(result[0].start_date);
