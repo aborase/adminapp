@@ -301,6 +301,23 @@ export class QuestionReportService {
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
             );
     }
+  
+  //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1/question/report
+    public getQuestionsReport(sessionId: any): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'sessions/' + sessionId + '/question' + '/report';
+
+        return this.http.get(url, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions/1/approvalmode
     public updateApprovalModeForSession(sessionId, status): Observable<any> {
