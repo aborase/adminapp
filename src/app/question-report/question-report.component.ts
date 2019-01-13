@@ -26,6 +26,7 @@ export class QuestionReportComponent implements OnInit {
   date: any;
   endTime: any;
   feedbackReport: any[] = [];
+  questionsReport: any[] = [];
   approvalMode: any;
   userDetail: any;
   CONGRATS_SMS = 'Thank you for participating in question session ';
@@ -58,9 +59,9 @@ export class QuestionReportComponent implements OnInit {
           }else{
             this.approvalMode = 'Manual'
           }
-      //  this.getQuestionList();
+        this.getQuestionsReport();
         this.getEventById(this.session.event_id);
-      this.getFeedbackReport();
+        this.getFeedbackReport();
       }, error => {
 
       });
@@ -72,6 +73,30 @@ export class QuestionReportComponent implements OnInit {
     this.qMonitor.getFeedbackReport(this.session.event_session_id).map((resData: any) => resData).subscribe(
       result => {        
         this.feedbackReport = result;    
+
+      }, error => {
+        
+      });
+
+  }
+
+  getQuestionsReport() {
+    console.log('onReport >>>');
+    this.qMonitor.getQuestionsReport(this.session.event_session_id).map((resData: any) => resData).subscribe(
+      result => {
+         if(result.length > 0){
+          result.forEach(element => {
+          if (element.question_status_id == 2) {
+            element.question_status_id = 'Approved';
+            this.questions.push(element);
+          }
+          else if (element.question_status_id == 1) {
+            element.question_status_id = 'Submitted';
+            this.questions.push(element);
+          }
+        });
+      }        
+         
 
       }, error => {
         
