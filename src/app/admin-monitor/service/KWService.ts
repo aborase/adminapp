@@ -95,7 +95,7 @@ export class KWService {
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions
 
-    public getAllSessionsInDay(date: any): Observable<any> {
+   public getAllSessionsInDay(date: any, filter: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
         headers = new Headers({
@@ -104,7 +104,8 @@ export class KWService {
 
          let body = JSON.stringify(
             {
-                date: date
+                date: date,
+                filter: filter
             }
         );
 
