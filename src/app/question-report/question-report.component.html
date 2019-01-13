@@ -21,6 +21,31 @@
 
 <!-- Feedback report -->
 <div style="margin-top:10px">
+    <h4 style="color: blue">All questions in session</h4>
+</div>
+<div style="margin-top:20px"> 
+  <p-table [value]="questions">
+    <ng-template pTemplate="header">
+      <tr class="dsHeader">        
+        <th>Session Name</th>
+        <th>Question</th>
+        <th>Question By</th>   
+        <th>Status</th>                   
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-question>
+      <tr class="dsBody">
+        <td>{{question.session_name}}</td>
+        <td>{{question.question}}</td>
+        <td style="text-align:center">{{question.question_by}}</td>      
+        <td>{{question.question_status_id}}</td>      
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Feedback report -->
+<div style="margin-top:10px">
     <h4 style="color: blue">Questions report order by most likes</h4>
 </div>
 <div style="margin-top:20px"> 
@@ -43,11 +68,11 @@
         <td>
             <Table>
                 <tr>
-                    <td>Phone: {{report.mobile_no}}</td>
+                    <td style="width:300px">Phone: {{report.mobile_no}}</td>
                     <td><button class="button_appr diableBtn" type="button" [disabled]="report.mobile_no == '' || report.mobile_no == null" (click)='onSendSMS(report)'>Send Congrats SMS</button></td>
                 </tr>
                 <tr>
-                    <td>Email: {{report.email_id}}</td>
+                    <td style="width:300px">Email: {{report.email_id}}</td>
                     <td><button class="button_appr diableBtn" type="button" [disabled]="report.email_id == '' || report.email_id == null" (click)='onSendEmail(report)'>Send Congrats Email</button></td>
                 </tr>
             </Table>
