@@ -9,6 +9,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectItem } from 'primeng/api';
 import { LogInService } from "../log-in/service/log-in";
+import { DatePipe } from '@angular/common';
 
 declare var moment: any;
 
@@ -43,25 +44,59 @@ export class AdminComponent implements OnInit {
   selectedSessionId: any;
   selectedSpeakerId: any;
   speakerCount: any;
+  currentDate: any;
+  sessionsFilrer:  any[] = [];
+  selectedSessionFilterId: any;
+  showSessionList: boolean = false;
+  selectedSessionFilter: any;
 
   constructor(private kwSerice: KWService, private spinnerService: Ng4LoadingSpinnerService,
     public toastr: ToastsManager, vcr: ViewContainerRef, private logInService: LogInService) {
     this.date = new Date();
     this.toastr.setRootViewContainerRef(vcr);
-
+    
   }
 
   ngOnInit(): void {
+    this.spinnerService.show();
+    let date = new Date();
+    var datePipe = new DatePipe("en-US");
+    this.currentDate = datePipe.transform(date, ' yyyy-MM-dd HH:MM:SS');   
+    console.log('>>>>>>>>>>>>>> datepipe details >>>>>><<<<<<<<<<<<<<', datePipe.transform(date, ' yyyy-MM-dd HH:MM:SS'));
+
+    this.sessionsFilrer = [{"id":1, "Value":"Today"},
+                            {"id":2, "Value":"Month"}];
    // this.kwSerice.feedbackReport.subscribe(report => this.feedbackReports = report);
+    console.log('>>>>>>>>>>>>>> this.sessionsFilrer >>>>>><<<<<<<<<<<<<<', this.sessionsFilrer);
     this.logInService.userInfo.subscribe(details => {
-      console.log('>>>>>>>>>>>>>> details >>>>>><<<<<<<<<<<<<<', details)
+      console.log('>>>>>>>>>>>>>> details >>>>>><<<<<<<<<<<<<<', details);
       this.userDetail = details;
     });
      this.logInService.publishUserDetailsToQuestionMonitor(this.userDetail);
-     this.getAllSessionsFoDay();
-     this.getAllSpeakers();
-     this.getMaxOratorId();
+      setTimeout(() => {
+        console.log('reached here ^^^^^^^^')
+              this.getAllSessionsFoDay("month");
+              this.getAllSpeakers();
+              this.getMaxOratorId();
+              this.spinnerService.hide();
+            }, 4000);
+     
 
+  }
+
+  onSelectSessionFilter(event: any){
+    console.log('>>>>>>>>>>>>>> addNewSpeaker >>>>>><<<<<<<<<<<<<<', event);
+    this.selectedSessionFilterId = event;
+    this.showSessionList = true;
+    if(this.selectedSessionFilterId == 1){
+      this.selectedSessionFilter = 'day';
+      this.getAllSessionsFoDay(this.selectedSessionFilter);
+    }else{
+      this.selectedSessionFilter = 'month';
+      this.getAllSessionsFoDay(this.selectedSessionFilter);
+    }
+
+    
   }
 
   addNewSpeaker(event: any){
@@ -72,7 +107,7 @@ export class AdminComponent implements OnInit {
       result => {
        this.kwSerice.updateSpeaker(this.selectedSessionId, id).map((resData: any) => resData).subscribe(
       result => {
-        this.getAllSessionsFoDay();
+        this.getAllSessionsFoDay(this.selectedSessionFilter);
         this.enableUpdateSpeakerBtn = true;
         this.showOtherSpeakers = false;
         this.showSpeaker = false;  
@@ -85,7 +120,7 @@ export class AdminComponent implements OnInit {
     console.log('>>>>>>>>>>>>>> updateSpeaker >>>>>><<<<<<<<<<<<<<', this.selectedSessionId)
      this.kwSerice.updateSpeaker(this.selectedSessionId, this.selectedSpeakerId).map((resData: any) => resData).subscribe(
       result => {
-        this.getAllSessionsFoDay();  
+        this.getAllSessionsFoDay(this.selectedSessionFilter);  
          this.showSpeaker = false;      
         this.toastr.success('Speaker name updated.', 'Success!', { toastLife: 3000, showCloseButton: true, positionClass: "toast-bottom-full-width" });
       });
@@ -152,15 +187,15 @@ export class AdminComponent implements OnInit {
       result => {
         console.log('>>>>>>>> updateApprovalModeForSession success >>');
         this.toastr.success(message, 'Success!', { toastLife: 3000, showCloseButton: true, positionClass: "toast-bottom-full-width" });
-        this.getAllSessionsFoDay();
+        this.getAllSessionsFoDay(this.selectedSessionFilter);
       }, error => {
 
       });
 
   }
 
-  getAllSessionsFoDay() {
-    this.kwSerice.getAllSessionsInDay().map((resData: any) => resData).subscribe(
+  getAllSessionsFoDay(filter) {
+    this.kwSerice.getAllSessionsInDay(this.currentDate, filter).map((resData: any) => resData).subscribe(
       result => {
         //this.activeSession = result[0];
         this.date = this.getDate(result[0].start_date);
@@ -359,7 +394,7 @@ export class AdminComponent implements OnInit {
     this.kwSerice.setSessionStatus(eventSession, status).map((resData: any) => resData).subscribe(
       result => {
         console.log("setSessionStatus >>>>>>", result);
-        this.getAllSessionsFoDay();
+        this.getAllSessionsFoDay(this.selectedSessionFilter);
         this.toastr.success(message, 'Success!', { toastLife: 3000, showCloseButton: true, positionClass: "toast-bottom-full-width" });
         // setTimeout(() => {
 

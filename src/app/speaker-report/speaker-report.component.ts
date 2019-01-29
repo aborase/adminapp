@@ -7,14 +7,14 @@ import { ActivatedRoute } from '@angular/router';
 import { QuestionReportService } from "./service/question-report-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { LogInService } from "../log-in/service/log-in";
-import { Question } from "../speaker-report/question";
+import { Question } from "./question";
 
 @Component({
-  selector: 'question-report',
-  templateUrl: './question-report.component.html',
-  styleUrls: ['./question-report.component.css']
+  selector: 'speaker-report',
+  templateUrl: './speaker-report.component.html',
+  styleUrls: ['./speaker-report.component.css']
 })
-export class QuestionReportComponent implements OnInit {
+export class SpeakerReportComponent implements OnInit {
 
   eventSessionId: number;
   isSessionStarted: boolean = false;
@@ -62,7 +62,7 @@ export class QuestionReportComponent implements OnInit {
           }
         this.getQuestionsReport();
         this.getEventById(this.session.event_id);
-        this.getFeedbackReport();
+      //  this.getFeedbackReport();
       }, error => {
 
       });
@@ -71,36 +71,9 @@ export class QuestionReportComponent implements OnInit {
 
   getFeedbackReport() {
     console.log('onReport >>>');
-    let id = 0;
     this.qMonitor.getFeedbackReport(this.session.event_session_id).map((resData: any) => resData).subscribe(
       result => {        
-       // this.feedbackReport = result;    
-
-
-        if(result.length > 0){
-           result.forEach(element => {
-             let question = new Question;
-             question.index = ++id;
-            question.question = element.question;
-            question.askedBy = element.question_by;
-            question.likeCount = element.feedback_count;
-            if(element.mobile_no != null || element.mobile_no != ''){
-               question.mobile_no = element.mobile_no;
-            }else{
-              question.mobile_no = '';
-            }
-
-            if(element.email_id != null || element.email_id != ''){
-               question.email_id = element.email_id;
-            }else{
-              question.email_id = '';
-            }
-           
-            this.feedbackReport.push(question);
-
-            });
-        }
-
+        this.feedbackReport = result;    
 
       }, error => {
         
@@ -110,26 +83,54 @@ export class QuestionReportComponent implements OnInit {
 
   getQuestionsReport() {
     console.log('onReport >>>');
+    this.questions = [];
+    let id = 0;
     this.qMonitor.getQuestionsReport(this.session.event_session_id).map((resData: any) => resData).subscribe(
       result => {
+         console.log('onReport >>>',result);
          if(result.length > 0){
           result.forEach(element => {
           if (element.question_status_id == 2) {
             element.question_status_id = 'Approved';
-            this.questions.push(element);
+             let question = new Question;
+            question.index = ++id;
+            question.question = element.question;
+            question.askedBy = element.question_by;
+            question.likeCount = element.feedback_count;
+          //  question.id = element.question_id;
+            this.questions.push(question);
           }
-          else if (element.question_status_id == 1) {
-            element.question_status_id = 'Submitted';
-            this.questions.push(element);
-          }
+          // else if (element.question_status_id == 1) {
+          //   element.question_status_id = 'Submitted';
+          //   this.questions.push(element);
+          // }
+         
         });
       }        
-         
+          console.log('onReport final >>>',this.questions);
 
       }, error => {
         
       });
 
+  }
+
+  refreshQuestions(){
+    console.log('refresh called ****');
+    this.getQuestionsReport();
+  }
+
+  removeQuestion(question: any){
+    console.log('removeQuestion called ****',question);
+    this.qMonitor.resetQuestionActiveFlag(question.id, 'N').map((resData: any) => resData).subscribe(
+      result => {
+   
+         this.refreshQuestions();
+
+      }, error => {
+        
+      });
+   
   }
 
   getEventById(eventId: any){

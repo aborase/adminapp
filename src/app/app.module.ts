@@ -17,7 +17,7 @@ import { LogInService } from "./log-in/service/log-in";
   ],
   imports: [
     HttpModule,  BrowserModule,ModalModule.forRoot(),
-    FormsModule, AppRoutingModule,BrowserAnimationsModule, ToastModule.forRoot()
+    FormsModule, AppRoutingModule,BrowserAnimationsModule, ToastModule.forRoot(),     
   ],
   providers: [{provide: ToastOptions, useClass: CustomOption}, LogInService],  
   bootstrap: [AppComponent]

@@ -38,8 +38,8 @@
   background-color: #4CAF50;
   border: none;
   color: white;
-  width: 80px;
-  height: 40px;
+  width: 20px;
+  height: 30px;
   text-align: center;
   font-size: 13px;
   align-self: center;
@@ -78,10 +78,13 @@
   text-align: center;
   align-self: center;
 }
-table, th, td {
+.table_cls{
+  
   border: 1px solid black;
   border-collapse: collapse;
+
 }
+
 
 @-webkit-keyframes sk-bouncedelay {
     0%, 80%, 100% { -webkit-transform: scale(0) }

@@ -1,0 +1,55 @@
+<div style="text-align: center; color: blue"><h2>Speaker Report</h2></div>
+
+<table style="width:100%; margin-top:10px" class="table_cls">
+  <tr class="table_cls">
+    <td style="width:50%;" class="table_cls"><b>Welcome:</b> Admin</td>
+    <td style="width:50%;" class="table_cls"><b>Date</b>: {{date}}</td>     
+  </tr>
+   <tr class="table_cls">
+    <td class="table_cls"><b>Session Name:</b> {{session.name}}</td>
+    <td class="table_cls"><b>Event Name:</b> {{event.mst_venue.name}}</td>     
+  </tr>
+  <tr class="table_cls">
+    <td class="table_cls"><b>Speaker:</b> {{session.mst_orator.name}}</td>
+    <td class="table_cls"><b>Stream:</b> {{session.mst_orator.stream}}</td>     
+  </tr>  
+</table>
+
+<!-- Feedback report -->
+<div style="margin-top:10px">
+  <table  style="border:0">
+  <tr style="border:1">
+    <td><h4>Questions raised in session</h4></td>
+    <td><button  (click)='refreshQuestions()' type="button"><i class="fa fa-refresh" aria-hidden="true" title="Refresh"> </i></button></td>
+   
+  </tr>
+  </table>
+       
+</div>
+<div style="margin-top:20px; margin-left:10px"> 
+  <p-table [value]="questions">
+    <ng-template pTemplate="header">
+      <tr class="dsHeader"> 
+        <th>Index</th>
+        <th>Question</th>
+        <th>Question By</th>  
+        <th>Likes Count</th>
+        <!--<th>Remove</th>-->
+                       
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-question>
+      <tr class="dsBody">   
+        <td style="text-align:center" >{{question.index}}</td>     
+        <td style="font-family: Verdana; font-size: 17.5 px;font-weight: 549"><h6 style="color: blue">{{question.question}}</h6></td>
+        <td style="text-align:center">{{question.askedBy}}</td>  
+        <td style="text-align:center">{{question.likeCount}}</td>    
+        <!--<td><button style="margin-left:15px;" (click)='removeQuestion(question)'
+            type="button"><i class="fa fa-trash" title="Delete"> </i></button></td>-->
+         
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+

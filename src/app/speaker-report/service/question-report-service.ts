@@ -344,6 +344,32 @@ export class QuestionReportService {
             );
     }
 
+   
+    //http://192.168.43.150:31607/kw/api/v1/webadmin/question/1
+    public resetQuestionActiveFlag(questionId, status): Observable<any> {
+        var headers: Headers;
+        var options: RequestOptions;
+        headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+
+        let body = JSON.stringify(
+            {
+                active: status
+            }
+        );
+
+        console.log('#### setQuestionStatus body ####', body)
+
+        options = new RequestOptions({ headers: headers });
+
+        let url = this.SERVER_URL + 'question/' + questionId;
+
+        return this.http.put(url, body, options).map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
+            );
+    }
+
     private feedback = new BehaviorSubject<any[]>([]);
     feedbackReport = this.feedback.asObservable();
     updateFeedbackReport(report: any[]) {

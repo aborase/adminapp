@@ -95,18 +95,25 @@ export class KWService {
 
     //http://192.168.43.150:31607/kw/api/v1/webadmin/sessions
 
-    public getAllSessionsInDay(): Observable<any> {
+    public getAllSessionsInDay(date: any, filter: any): Observable<any> {
         var headers: Headers;
         var options: RequestOptions;
         headers = new Headers({
             'Content-Type': 'application/json'
         });
 
+         let body = JSON.stringify(
+            {
+                date: date,
+                filter: filter
+            }
+        );
+
         options = new RequestOptions({ headers: headers });
 
         let url = this.SERVER_URL + 'sessions';
 
-        return this.http.get(url, options).map(res => res.json())
+        return this.http.post(url, body, options).map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().info || 'Server error while fetching data')
             );
     }

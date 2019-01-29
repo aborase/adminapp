@@ -78,6 +78,14 @@
   <div style="margin-top:5px"></div>
 </div>
 
+<div style="margin-top:20px;">
+  <label> Select sessions : </label>
+  <select (change)="onSelectSessionFilter($event.target.value)">
+      <option value="-1">Show sessions by</option>
+      <option *ngFor="let filter of sessionsFilrer" [value]="filter.id">{{filter.Value}}</option>
+  </select>   
+</div>
+
 <div style="margin-top:50px">
   <p-table [value]="eventSessions">
     <ng-template pTemplate="header">
@@ -122,6 +130,7 @@
     </ng-template>
   </p-table>
 </div>
+<ng4-loading-spinner> </ng4-loading-spinner>
 
 <!--
 <ng-template #template>
