@@ -118,9 +118,9 @@
             type="button">Change Speaker</button></td>
         <td>{{quest.active}}</td>
         <td>{{quest.question_pin}}</td>
-        <td> <a routerLink="/qmonitor/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Q monitor</a></td>
-        <td> <a routerLink="/qreport/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Report</a></td>
-        <td> <a routerLink="/sreport/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Speaker Report</a></td>
+        <td> <a routerLink="/kwapp/admin/qmonitor/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Q monitor</a></td>
+        <td> <a routerLink="/kwapp/admin/qreport/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Report</a></td>
+        <td> <a routerLink="/kwapp/admin/sreport/{{quest.event_session_id}}" target="_blank" routerLinkActive="active">Speaker Report</a></td>
         <td>{{quest.is_auto_approval}}</td>
         <td><button class="button_appr diableBtn" type="button" [disabled]="quest.active == 'Y'" (click)='onStartSession(quest)'>Start</button></td>
         <td><button class="button_rej diableBtn" (click)='onEndSession(quest)' [disabled]="quest.active != 'Y'" type="button">End</button></td>
