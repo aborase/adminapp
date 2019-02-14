@@ -26,6 +26,7 @@ LogInModule
     RouterModule.forRoot(
       appRoutes,
       {
+        useHash: true,
         enableTracing: false, // <-- debugging purposes only
         
       }
